@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Test SPA</title>
+    <meta name="author" content="Alexander Klaus">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="text/javascript">
+        const knownRoutes = ['/', '/routeA'];
+        
+        function stylePageOnLoad() {
+           
+            const pathName = window.location.pathname;
+            console.log(pathName)
+            
+            if (!knownRoutes.includes(pathName))  {
+                // Unknown route
+                setNotFoundPageVisibility(true);
+            } else {
+                // Known route
+                setNotFoundPageVisibility(false);
+                document.getElementById('1');
+
+                const sections = document.querySelectorAll("div.section");
+                sections.forEach((section) => {
+                    const sectionRoute = section.getAttribute('data-route');
+                    if (sectionRoute === pathName)
+                        section.classList.add("disabled");
+                    else
+                        section.classList.remove("disabled");
+                });
+            }
+        }
+        function setNotFoundPageVisibility(visible) {
+            const notFoundSection = document.getElementById("unknown-routes");
+            const    foundSection = document.getElementById("known-routes");
+
+            notFoundSection.style.display = visible ? 'block' : 'none';
+               foundSection.style.display = visible ? 'none' : 'block';
+        }
+        window.onload = stylePageOnLoad;
+    </script>
+</head>
+
+<body>
+    <section id="unknown-routes" style="display: none"> 
+        PAGE NOT FOUND :(
+    </section>
+    <section id="known-routes" style="display: none">
+        <div class="section" data-route="/">
+            <a href="/">Home</a>
+        </div>
+        <div class="section" data-route="/routeA">
+            <a href="/routeA">Route A</a>
+        </div>
+    </section>
+</body>
+</html>
