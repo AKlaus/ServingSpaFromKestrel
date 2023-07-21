@@ -4,6 +4,7 @@ namespace AK.HostingSpa.ClassicApi;
 
 public class Startup
 {
+	// ReSharper disable once NotAccessedField.Local
 	private readonly IConfiguration _configuration;
 
 	public Startup(IConfiguration configuration)
@@ -39,10 +40,13 @@ public class Startup
 
 		// Matches request to an endpoint
 		app.UseRouting();
+
+		app.UseSpaWithNoCache();
+		// Add UseAuthentication() & UseAuthorization() here if required
+		
 		// Executes the matched endpoint
 		app.UseEndpoints(endpoints => 
 				endpoints.MapControllers() // Maps attributes on the controllers, like, [Route], [HttpGet], etc.
 			);
-		app.UseSpaWithNoCache();
 	}
 }
