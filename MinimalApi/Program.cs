@@ -17,6 +17,7 @@ if (isLocal)
 
 app	.UseHttpsRedirection()
 	.UseSpaWithNoCache();
+	// Add UseAuthentication() & UseAuthorization() here if required
 
 // Map minimal API routes
 app	.MapTestRoutes();

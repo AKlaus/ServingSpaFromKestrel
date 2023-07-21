@@ -5,7 +5,7 @@ namespace AK.HostingSpa.MinimalApi.Configuration;
 
 internal static partial class ServiceCollectionExtensions
 {
-	public static void UseSpaWithNoCache(this IApplicationBuilder app)
+	public static IApplicationBuilder UseSpaWithNoCache(this IApplicationBuilder app)
 	{
 		// List front-end files (in addition to 'index.html') that require to be served with no browser cache 
 		var filesWithNoCache = Array.Empty<string>();
@@ -36,7 +36,9 @@ internal static partial class ServiceCollectionExtensions
 		app.UseSpa(c =>c.Options.DefaultPageStaticFileOptions = new StaticFileOptions  { OnPrepareResponse = SetNoCaching});
 		
 		// Note: There's no need in calling UseDefaultFiles() prior to UseStaticFiles() as the docs insist (https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files#serve-default-documents),
-		// because UseSpa() extension does the same and allows to setup caching policies 
+		// because UseSpa() extension does the same and allows to setup caching policies
+
+		return app;
 	}
 
 	/// <summary>
