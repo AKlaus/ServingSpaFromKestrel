@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 
-namespace AK.HostingSpa.ClassicApi.Configuration;
+namespace AK.HostingSpa.MinimalApi.Configuration;
 
 internal static partial class ServiceCollectionExtensions
 {
