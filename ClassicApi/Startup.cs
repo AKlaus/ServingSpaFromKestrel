@@ -1,4 +1,4 @@
-using AK.HostingSpa.ClassicApi.Configuration;
+using AK.HostingSpa.Configuration;
 
 namespace AK.HostingSpa.ClassicApi;
 
@@ -27,16 +27,16 @@ public class Startup
 	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 	{
 		if (env.IsDevelopment())
-			// CORS is used for development only 
-			app.UseCors();
-		else
 		{
-			// Enforce use of HTTPS
-			app.UseHsts();
-			app.UseHttpsRedirection();
+			// CORS if needed for development only 
+			// app.UseCors();
 		}
-		app.AddAppExceptionHandler(env);
-		app.UseAppSwagger();
+		// Enforce use of HTTPS
+		app.UseHsts();
+		app.UseHttpsRedirection();
+
+		app	.UseAppSwagger()
+			.UseDeveloperExceptionPage();
 
 		// Matches request to an endpoint
 		app.UseRouting();
