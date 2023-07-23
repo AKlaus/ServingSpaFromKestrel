@@ -6,8 +6,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="../Configuration/**" LinkBase="Configuration" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<SpaFiles Include="$(MSBuildProjectDirectory)/../wwwroot/**" />
 	</ItemGroup>
+
 	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
 		<Copy SourceFiles="@(SpaFiles)" DestinationFolder="wwwroot" SkipUnchangedFiles="true" ContinueOnError="false" />
 	</Target>

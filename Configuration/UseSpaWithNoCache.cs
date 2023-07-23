@@ -1,10 +1,17 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 
-namespace AK.HostingSpa.ClassicApi.Configuration;
+// ReSharper disable once CheckNamespace
+namespace AK.HostingSpa.Configuration;
 
 internal static partial class ServiceCollectionExtensions
 {
+	/// <summary>
+	///		Adds the middleware pipeline for serving static files (SPA scripts, HTML and assets)
+	/// </summary>
+	/// <remarks>
+	///		Here's the same pipeline for the Classic and Minimal API 
+	/// </remarks>
 	public static IApplicationBuilder UseSpaWithNoCache(this IApplicationBuilder app)
 	{
 		// List front-end files (in addition to 'index.html') that require to be served with no browser cache 
