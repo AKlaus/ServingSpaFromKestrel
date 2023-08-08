@@ -1,3 +1,7 @@
+[![Build](https://github.com/AKlaus/ServingSpaFromKestrel/actions/workflows/build.yml/badge.svg)](https://github.com/AKlaus/ServingSpaFromKestrel/actions/workflows/build.yml)
+
+Code samples for "[Hosting SPA + .NET API solution](https://alex-klaus.com/hosting-spa-in-dotnet/)" article.
+
 # SPA hosted by .NET Web API
 
 > Here's a [blog post](https://alex-klaus.com/hosting-spa-in-dotnet/) explaining the magic sauce.
