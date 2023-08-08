@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AK.HostingSpa.ClassicApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/api/[controller]")]
 public class TestController : ControllerBase
 {
-	[HttpGet("[action]")]
+	[HttpGet("")]
 	public IActionResult Get() => new NoContentResult();
 }

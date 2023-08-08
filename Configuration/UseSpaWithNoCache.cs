@@ -40,7 +40,7 @@ internal static partial class ServiceCollectionExtensions
 		//	- Redirects all requests to the default page;
 		//	- Serves 'index.html'
 		//	- Tries to configure static files serving (falls back to UseSpaStaticFiles() and serving them from 'wwwroot')
-		app.UseSpa(c =>c.Options.DefaultPageStaticFileOptions = new StaticFileOptions  { OnPrepareResponse = SetNoCaching});
+		app.UseSpa(c => c.Options.DefaultPageStaticFileOptions = new StaticFileOptions { OnPrepareResponse = SetNoCaching});
 		
 		// Note: There's no need in calling UseDefaultFiles() prior to UseStaticFiles() as the docs insist (https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files#serve-default-documents),
 		// because UseSpa() extension does the same and allows to setup caching policies
