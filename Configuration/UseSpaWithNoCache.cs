@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 
@@ -35,12 +36,26 @@ internal static partial class ServiceCollectionExtensions
 					}
 				}
 			});
+		
+		// Prevent HTTP 500 response on non-GET requests (e.g. POST, OPTIONS) to non-API end-points
+		// See https://github.com/dotnet/aspnetcore/issues/5223#issuecomment-1135817359
+		app.Use(async (context, next) =>
+			{
+				if (context.GetEndpoint() == null && !HttpMethods.IsGet(context.Request.Method) && !HttpMethods.IsHead(context.Request.Method))
+				{
+					context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+					await context.Response.WriteAsync($"Forbidden {context.Request.Method}");
+				}
+				else
+					await next();
+			}
+		);
 
 		// Does 3 things:
 		//	- Redirects all requests to the default page;
 		//	- Serves 'index.html'
 		//	- Tries to configure static files serving (falls back to UseSpaStaticFiles() and serving them from 'wwwroot')
-		app.UseSpa(c => c.Options.DefaultPageStaticFileOptions = new StaticFileOptions { OnPrepareResponse = SetNoCaching});
+		app.UseSpa(c => c.Options.DefaultPageStaticFileOptions = new StaticFileOptions { OnPrepareResponse = SetNoCaching });
 		
 		// Note: There's no need in calling UseDefaultFiles() prior to UseStaticFiles() as the docs insist (https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files#serve-default-documents),
 		// because UseSpa() extension does the same and allows to setup caching policies
