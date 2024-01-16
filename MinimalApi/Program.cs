@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer()
 // Configure the HTTP request pipeline
 var app = builder.Build();
 
-if (isLocal)
+if (!isLocal)
 {
 	// CORS if needed for development only 
 	// app.UseCors();
