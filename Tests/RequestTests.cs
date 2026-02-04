@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace AK.HostingSpa.Tests;
 
-public abstract class RequestTestsBase<TProgram> : IClassFixture<WebApplicationFactory<TProgram>>
-	where TProgram : class
+/// <summary>
+///		Tests for API calls 
+/// </summary>
+public abstract class ApiRequestTestsBase<TProgram> : IClassFixture<WebApplicationFactory<TProgram>> where TProgram : class
 {
 	private readonly HttpClient _client;
 
-	protected RequestTestsBase(WebApplicationFactory<TProgram> factory)
+	protected ApiRequestTestsBase(WebApplicationFactory<TProgram> factory)
 	{
 		_client = factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 	}
@@ -38,7 +40,7 @@ public abstract class RequestTestsBase<TProgram> : IClassFixture<WebApplicationF
 	[InlineData("PATCH")]
 	[InlineData("OPTIONS")]
 	[InlineData("HEAD")]
-	public async Task Wrong_Http_Method_Returns_MethodNotAllowed(string method)
+	public async Task Wrong_Http_Method_For_Api_Endpoint_Returns_MethodNotAllowed(string method)
 	{
 		var request = new HttpRequestMessage(new HttpMethod(method), "/api/test");
 
@@ -46,7 +48,7 @@ public abstract class RequestTestsBase<TProgram> : IClassFixture<WebApplicationF
 
 		Assert.Equal(HttpStatusCode.MethodNotAllowed, response.StatusCode);
 	}
-
+	
 	[Theory]
 	[InlineData("/api/nonexistent")]
 	[InlineData("/api/test%20test")]
@@ -85,22 +87,10 @@ public abstract class RequestTestsBase<TProgram> : IClassFixture<WebApplicationF
 
 		Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 	}
-
-	[Theory]
-	[InlineData("/swagger/v1/swagger.json", "GET")]
-	[InlineData("/swagger/index.html", "GET")]
-	public async Task Swagger_Returns_OK(string path, string method)
-	{
-		var request = new HttpRequestMessage(new HttpMethod(method), path);
-
-		var response = await _client.SendAsync(request);
-
-		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-	}
 }
 
 public class ClassicApiRequestTests(WebApplicationFactory<ClassicApi.Program> factory)
-	: RequestTestsBase<ClassicApi.Program>(factory);
+	: ApiRequestTestsBase<ClassicApi.Program>(factory);
 
 public class MinimalApiRequestTests(WebApplicationFactory<MinimalApi.Program> factory)
-	: RequestTestsBase<MinimalApi.Program>(factory);
+	: ApiRequestTestsBase<MinimalApi.Program>(factory);
