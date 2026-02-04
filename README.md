@@ -16,7 +16,8 @@ Example of WebAPI projects (ASP.NET) servicing a SPA front-end along with the AP
 
 ## Folder structure
 The key elements of the solution:
-- `wwwroot` – a sample SPA front-end with two routes serviced by the back-end project.
 - `ClassicApi` – a WebAPI project with classic controllers servicing the front-end from `wwwroot`.
 - `MinimalApi` – a WebAPI project built with [minimal API](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis) servicing the front-end from `wwwroot`.
 - `Configuration` – helper methods used by both projects to configure the middleware for Swagger and SPA. 
+- `wwwroot` – a sample SPA front-end with two routes serviced by the back-end project.
+- `Tests` – automates tests for valid and invalid calls to the API, Swagger and SPA.
