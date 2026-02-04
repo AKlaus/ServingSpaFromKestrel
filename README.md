@@ -1,5 +1,5 @@
 [![Build](https://github.com/AKlaus/ServingSpaFromKestrel/actions/workflows/build.yml/badge.svg)](https://github.com/AKlaus/ServingSpaFromKestrel/actions/workflows/build.yml)
-[![Test Coverage](https://coveralls.io/repos/github/AKlaus/ServingSpaFromKestrel/badge.svg?branch=master)](https://coveralls.io/github/AKlaus/ServingSpaFromKestrel?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/AKlaus/ServingSpaFromKestrel/badge.svg?branch=main)](https://coveralls.io/github/AKlaus/ServingSpaFromKestrel?branch=main)
 
 > Code samples for "[Hosting SPA + .NET API solution](https://alex-klaus.com/hosting-spa-in-dotnet/)" article.
 
