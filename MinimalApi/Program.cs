@@ -33,3 +33,7 @@ app	.UseSpaWithNoCache();
 app	.MapTestRoutes();
 
 await app.RunAsync();
+
+// Required for WebApplicationFactory in integration tests
+// ReSharper disable once ClassNeverInstantiated.Global
+namespace AK.HostingSpa.MinimalApi { public partial class Program; }

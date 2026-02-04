@@ -1,18 +1,18 @@
 using System.Net;
-using AK.HostingSpa.ClassicApi;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace AK.HostingSpa.Tests;
 
-public class RequestTests : IClassFixture<WebApplicationFactory<Program>>
+public abstract class RequestTestsBase<TProgram> : IClassFixture<WebApplicationFactory<TProgram>>
+	where TProgram : class
 {
 	private readonly HttpClient _client;
 
-	public RequestTests(WebApplicationFactory<Program> factory)
+	protected RequestTestsBase(WebApplicationFactory<TProgram> factory)
 	{
 		_client = factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 	}
-	
+
 	[Fact]
 	public async Task Valid_Get_Api_Request_ReturnsNoContent()
 	{
@@ -98,3 +98,9 @@ public class RequestTests : IClassFixture<WebApplicationFactory<Program>>
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 	}
 }
+
+public class ClassicApiRequestTests(WebApplicationFactory<ClassicApi.Program> factory)
+	: RequestTestsBase<ClassicApi.Program>(factory);
+
+public class MinimalApiRequestTests(WebApplicationFactory<MinimalApi.Program> factory)
+	: RequestTestsBase<MinimalApi.Program>(factory);

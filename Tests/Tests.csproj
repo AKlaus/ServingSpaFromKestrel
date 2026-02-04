@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../ClassicApi/ClassicApi.csproj" />
+    <ProjectReference Include="../MinimalApi/MinimalApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
