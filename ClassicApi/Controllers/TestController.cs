@@ -7,5 +7,5 @@ namespace AK.HostingSpa.ClassicApi.Controllers;
 public class TestController : ControllerBase
 {
 	[HttpGet("")]
-	public IActionResult Get() => new NoContentResult();
+	public NoContentResult Get() => new ();
 }
