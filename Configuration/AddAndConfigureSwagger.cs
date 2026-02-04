@@ -1,5 +1,5 @@
 using System.Reflection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 // ReSharper disable once CheckNamespace
 namespace AK.HostingSpa.Configuration;
