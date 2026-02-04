@@ -1,6 +1,6 @@
 namespace AK.HostingSpa.MinimalApi.Routes;
 
-internal static partial class RoutesExtension
+internal static class RoutesExtension
 {
 	public static IEndpointRouteBuilder MapTestRoutes(this IEndpointRouteBuilder app)
 	{
