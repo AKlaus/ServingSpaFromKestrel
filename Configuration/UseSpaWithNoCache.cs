@@ -1,4 +1,6 @@
 using System.Net;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 
@@ -16,7 +18,7 @@ internal static partial class ServiceCollectionExtensions
 	public static IApplicationBuilder UseSpaWithNoCache(this IApplicationBuilder app)
 	{
 		// List front-end files (in addition to 'index.html') that require to be served with no browser cache 
-		var filesWithNoCache = Array.Empty<string>();
+		string[] filesWithNoCache = [];
 		
 		// Serves static files under the "wwwroot" folder. Maps to the root route ("/")
 		// Serves other than `index.html` files under the web root (by default `wwwroot`) folder.
@@ -37,14 +39,29 @@ internal static partial class ServiceCollectionExtensions
 				}
 			});
 		
-		// Prevent HTTP 500 response on non-GET requests (e.g. POST, OPTIONS) to non-API end-points
-		// See https://github.com/dotnet/aspnetcore/issues/5223#issuecomment-1135817359
+		// Handle unmatched API requests
 		app.Use(async (context, next) =>
 			{
-				if (context.GetEndpoint() == null && !HttpMethods.IsGet(context.Request.Method) && !HttpMethods.IsHead(context.Request.Method))
+				// Return 404 for unmatched API requests instead of falling through to SPA middleware
+				// This handles cases where route constraints reject invalid parameters (e.g., non-numeric values for :int constraints)
+				if (context.GetEndpoint() == null && context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
+				{
+					var problemDetails = new ProblemDetails
+						{
+							Status = StatusCodes.Status404NotFound,
+							Title = "The requested API endpoint not found.",
+							Instance = context.Request.Path
+						};             
+					context.Response.StatusCode = (int)problemDetails.Status;
+					context.Response.ContentType = MediaTypeNames.Application.ProblemJson;
+					await context.Response.WriteAsJsonAsync(problemDetails);
+				}
+				// Prevent HTTP 500 response on non-GET requests (e.g. POST, OPTIONS) to non-API end-points
+				// See https://github.com/dotnet/aspnetcore/issues/5223#issuecomment-1135817359
+				else if (context.GetEndpoint() == null && !HttpMethods.IsGet(context.Request.Method) && !HttpMethods.IsHead(context.Request.Method))
 				{
 					context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
-					await context.Response.WriteAsync($"Forbidden {context.Request.Method}");
+					await context.Response.WriteAsync($"Not allowed HTTP method: {context.Request.Method}");
 				}
 				else
 					await next();
